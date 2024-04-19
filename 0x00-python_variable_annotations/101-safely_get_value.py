@@ -6,23 +6,12 @@ of a value from a dictionary.
 
 from typing import Mapping, Any, Union, TypeVar
 
-T = TypeVar('T')  # Declare type variable
+T = TypeVar('T')
 
 
-def safely_get_value(dct: Mapping[Any, T], key: Any,
+def safely_get_value(dct: Mapping, key: Any,
                      default: Union[T, None] = None) -> Union[Any, T]:
-    """
-    Retrieve a value from a dictionary by key or return default if
-    the key is not found.
-
-    Args:
-        dct (Mapping[Any, T]): Dictionary from which to retrieve the value.
-        key (Any): Key to look for in the dictionary.
-        default (Union[T, None]): Default value if key not found.
-
-    Returns:
-        Union[Any, T]: Value from the dictionary or default.
-    """
+    ''' Outputs dct[key] if it exists, otherwise return `default`. '''
     if key in dct:
         return dct[key]
     else:
