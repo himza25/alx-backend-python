@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """Module to safely return the first element of a sequence."""
 
 from typing import Sequence, Any, Optional
