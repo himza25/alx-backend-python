@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-Module for getting a value from a dictionary safely with
-advanced type annotations.
+Advanced type annotations using TypeVar for a generic type-safe retrieval
+of a value from a dictionary.
 """
 
-from typing import TypeVar, Mapping, Any, Union
+from typing import TypeVar, Mapping, Any, Optional
 
-T = TypeVar('T')  # Declare type variable
+T = TypeVar('T')  # Type variable for a generic type
 
 
 def safely_get_value(dct: Mapping[Any, T], key: Any,
-                     default: Union[T, None] = None) -> Union[T, None]:
+                     default: Optional[T] = None) -> Optional[T]:
     """
     Retrieve a value from a dictionary by key or return default
     if key is not found.
@@ -18,11 +18,10 @@ def safely_get_value(dct: Mapping[Any, T], key: Any,
     Args:
         dct (Mapping[Any, T]): Dictionary to retrieve the value.
         key (Any): Key to look for in the dictionary.
-        default (Union[T, None], optional): Default value if key not found.
-        Defaults to None.
+        default (Optional[T]): Default value if key not found.
 
     Returns:
-        Union[T, None]: Value from the dictionary or default.
+        Optional[T]: Value from the dictionary or default.
     """
     if key in dct:
         return dct[key]
