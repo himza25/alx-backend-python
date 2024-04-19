@@ -6,7 +6,7 @@ Module provides a function to replicate elements of a tuple.
 from typing import Tuple, List, Any
 
 
-def zoom_array(lst: Tuple[Any, ...], factor: int = 2) -> List[Any]:
+def zoom_array(lst: Tuple, factor: int = 2) -> List:
     ''' Replicate each element in a tuple a given number of times.'''
     zoomed_in: List[Any] = [
         item for item in lst
