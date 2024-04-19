@@ -1,28 +1,18 @@
 #!/usr/bin/env python3
-"""
-Advanced type annotations using TypeVar for a generic type-safe retrieval
-of a value from a dictionary.
-"""
+'''
+    Description: Using the parameters and the return values, add type
+    annotations to the function
+    Parameters: T - a TypeVar with value '~T'
+'''
 
-from typing import TypeVar, Mapping, Any, Optional
+from typing import Mapping, Any, Union, TypeVar
 
-T = TypeVar('T')  # Type variable for a generic type
+T = TypeVar('T')
 
 
-def safely_get_value(dct: Mapping[Any, T], key: Any,
-                     default: Optional[T] = None) -> Optional[T]:
-    """
-    Retrieve a value from a dictionary by key or return default
-    if key is not found.
-
-    Args:
-        dct (Mapping[Any, T]): Dictionary to retrieve the value.
-        key (Any): Key to look for in the dictionary.
-        default (Optional[T]): Default value if key not found.
-
-    Returns:
-        Optional[T]: Value from the dictionary or default.
-    """
+def safely_get_value(dct: Mapping, key: Any,
+                     default: Union[T, None] = None) -> Union[Any, T]:
+    ''' Outputs dct[key] if it exists, otherwise return `default`. '''
     if key in dct:
         return dct[key]
     else:
