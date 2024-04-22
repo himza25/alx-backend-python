@@ -5,7 +5,6 @@ Provides async functions to simulate random wait times up to a specified max.
 
 import asyncio
 import random
-from typing import float
 
 
 async def wait_random(max_delay: int = 10) -> float:
