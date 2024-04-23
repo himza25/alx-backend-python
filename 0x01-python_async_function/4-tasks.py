@@ -1,28 +1,18 @@
 #!/usr/bin/env python3
-"""
-This module modifies the wait_n function to use task_wait_random, dynamically
-importing it and handling tasks to return results as they complete.
-"""
+"""Module to create asyncio tasks from wait_random coroutine."""
 
 import asyncio
-import importlib
-
-basic_async_syntax = importlib.import_module("0-basic_async_syntax")
-task_wait_random = getattr(basic_async_syntax, 'task_wait_random')
+from zero_basic_async_syntax import wait_random
 
 
-async def task_wait_n(n: int, max_delay: int) -> list:
+def task_wait_random(max_delay: int) -> asyncio.Task:
     """
-    Spawns n tasks using the dynamically imported task_wait_random and returns
-    the results of these tasks as they complete.
+    Creates an asyncio.Task from the wait_random coroutine.
 
-    Parameters:
-    n (int): Number of tasks to spawn.
-    max_delay (int): Maximum delay that can be used in task_wait_random.
+    Args:
+    max_delay (int): Maximum delay for the wait_random coroutine.
 
     Returns:
-    list: List of float values representing the completion times of the tasks,
-          sorted by the order of their completion.
+    asyncio.Task: Task object created from the coroutine.
     """
-    tasks = [task_wait_random(max_delay) for _ in range(n)]
-    return [await task for task in asyncio.as_completed(tasks)]
+    return asyncio.create_task(wait_random(max_delay))
