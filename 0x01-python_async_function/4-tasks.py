@@ -1,27 +1,28 @@
 #!/usr/bin/env python3
 """
-This module alters wait_n to use task_wait_random and creates a list of
-completed task results.
+This module modifies the wait_n function to use task_wait_random, dynamically
+importing it and handling tasks to return results as they complete.
 """
 
 import asyncio
-from 3-tasks import task_wait_random  # Adjust if different based on file setup
+import importlib
+
+basic_async_syntax = importlib.import_module("0-basic_async_syntax")
+task_wait_random = getattr(basic_async_syntax, 'task_wait_random')
 
 
 async def task_wait_n(n: int, max_delay: int) -> list:
     """
-    Executes multiple task_wait_random tasks and returns a list of the results.
+    Spawns n tasks using the dynamically imported task_wait_random and returns
+    the results of these tasks as they complete.
 
     Parameters:
     n (int): Number of tasks to spawn.
-    max_delay (int): Maximum delay passed to task_wait_random.
+    max_delay (int): Maximum delay that can be used in task_wait_random.
 
     Returns:
-    list: List of results from the completed tasks, in the order of completion.
+    list: List of float values representing the completion times of the tasks,
+          sorted by the order of their completion.
     """
     tasks = [task_wait_random(max_delay) for _ in range(n)]
-    completed_tasks = []
-    for task in asyncio.as_completed(tasks):
-        completed = await task
-        completed_tasks.append(completed)
-    return completed_tasks
+    return [await task for task in asyncio.as_completed(tasks)]
