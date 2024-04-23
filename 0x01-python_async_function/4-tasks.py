@@ -1,18 +1,10 @@
 #!/usr/bin/env python3
-"""Module to create asyncio tasks from wait_random coroutine."""
-
+"""Modifies wait_n function to use task_wait_random for creating tasks."""
 import asyncio
-from zero_basic_async_syntax import wait_random
+from 3-tasks import task_wait_random
 
 
-def task_wait_random(max_delay: int) -> asyncio.Task:
-    """
-    Creates an asyncio.Task from the wait_random coroutine.
-
-    Args:
-    max_delay (int): Maximum delay for the wait_random coroutine.
-
-    Returns:
-    asyncio.Task: Task object created from the coroutine.
-    """
-    return asyncio.create_task(wait_random(max_delay))
+async def task_wait_n(n: int, max_delay: int) -> list:
+    """Executes n task_wait_random tasks and returns results."""
+    tasks = [task_wait_random(max_delay) for _ in range(n)]
+    return [await task for task in asyncio.as_completed(tasks)]
