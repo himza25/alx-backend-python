@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """
-This module imports wait_random and defines task_wait_random to return an
-asyncio.Task.
+This module dynamically imports wait_random and defines task_wait_random to
+return an asyncio.Task.
 """
 
 import asyncio
-from 0-basic_async_syntax import wait_random
+import importlib
+
+basic_async_syntax = importlib.import_module("0-basic_async_syntax")
+wait_random = getattr(basic_async_syntax, 'wait_random')
 
 
 def task_wait_random(max_delay: int) -> asyncio.Task:
