@@ -17,20 +17,16 @@ class TestGithubOrgClient(unittest.TestCase):
         ("google",),
         ("abc",)
     ])
-    @patch('client.get_json')
+    @patch('client.get_json', return_value={"payload": True})
     def test_org(self, org_name, mock_get_json):
         """Test that GithubOrgClient.org returns the correct value"""
-        mock_get_json.return_value = {"payload": True}
         client = GithubOrgClient(org_name)
         self.assertEqual(client.org, {"payload": True})
         mock_get_json.assert_called_once_with(
             f"https://api.github.com/orgs/{org_name}"
         )
 
-    @patch(
-        'client.GithubOrgClient.org',
-        new_callable=PropertyMock
-    )
+    @patch('client.GithubOrgClient.org', new_callable=PropertyMock)
     def test_public_repos_url(self, mock_org):
         """Test the _public_repos_url property"""
         mock_org.return_value = {"repos_url": "http://some_url/repos"}
@@ -38,7 +34,10 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(client._public_repos_url, "http://some_url/repos")
         mock_org.assert_called_once()
 
-    @patch('client.get_json')
+    @patch(
+        'client.get_json',
+        return_value=[{"name": "repo1"}, {"name": "repo2"}]
+    )
     @patch(
         'client.GithubOrgClient._public_repos_url',
         new_callable=PropertyMock
@@ -46,7 +45,6 @@ class TestGithubOrgClient(unittest.TestCase):
     def test_public_repos(self, mock_public_repos_url, mock_get_json):
         """Test the public_repos method"""
         mock_public_repos_url.return_value = "http://some_url/repos"
-        mock_get_json.return_value = [{"name": "repo1"}, {"name": "repo2"}]
         client = GithubOrgClient("test")
         self.assertEqual(client.public_repos(), ["repo1", "repo2"])
         mock_public_repos_url.assert_called_once()
@@ -100,8 +98,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """Test public_repos with license argument"""
         client = GithubOrgClient("google")
         self.assertEqual(
-            client.public_repos(license="apache-2.0"),
-            self.apache2_repos
+            client.public_repos(license="apache-2.0"), self.apache2_repos
         )
 
 
