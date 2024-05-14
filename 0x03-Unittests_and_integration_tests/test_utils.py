@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+Unittests for utils.py
+"""
 
 import unittest
 from unittest.mock import patch, Mock
@@ -51,11 +54,14 @@ class TestMemoize(unittest.TestCase):
         """Test memoize decorator"""
 
         class TestClass:
+            """Class for testing memoization"""
             def a_method(self):
+                """Returns 42"""
                 return 42
 
             @memoize
             def a_property(self):
+                """Memoized property"""
                 return self.a_method()
 
         with patch.object(
